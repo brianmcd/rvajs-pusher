@@ -4,7 +4,9 @@ var express = require('express'),
     fs = require('fs'),
     path = require('path');
 
-var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+try {
+  var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+} catch (e) {}
 
 var app = express();
 
