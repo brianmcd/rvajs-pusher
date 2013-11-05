@@ -21,9 +21,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.errorHandler());
 
 var pusher = new Pusher({
-  appId: config.PUSHER_APP_ID,
-  key: config.PUSHER_KEY,
-  secret: config.PUSHER_SECRET
+  appId: process.env['PUSHER_APP_ID'] || config.PUSHER_APP_ID,
+  key: process.env['PUSHER_KEY'] || config.PUSHER_KEY,
+  secret: process.env['PUSHER_SECRET'] || config.PUSHER_SECRET
 });
 
 var nextId = 0;
