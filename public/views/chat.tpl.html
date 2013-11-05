@@ -1,0 +1,14 @@
+<div class="chat-box">
+  <div class="chat-box-main-window">
+    <div class="chat-messages">
+      <div class="chat-message" ng-repeat="message in messages track by $index">
+        <strong>{{message.username}}</strong>: {{message.body}}
+      </div>
+    </div>
+  </div>
+  <form ng-submit="sendMessage()">
+    <input ng-model="currentMessage.body"
+           class="chat-input"
+           placeholder="Enter your message...">
+  </form>
+</div>
