@@ -2,6 +2,8 @@
 
 This is a simple chat app built with Pusher, Angular, and Express.
 
+Check it out: http://rvajs-pusher.herokuapp.com/
+
 # Getting it running
 
 * Create a config.json file that looks like:
