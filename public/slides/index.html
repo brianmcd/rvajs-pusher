@@ -93,7 +93,7 @@ var pusher = new Pusher('YOUR_APP_KEY');
         <section>
           <h2>Channels</h2>
           <ul>
-            <li>A routing mechanism for the stuff you push to clients</li>
+            <li>A way of filtering which clients receive which events</li>
             <li>Identified by a string</li>
             <ul>
               <li>chat-room-3</li>
@@ -118,7 +118,7 @@ var channel = pusher.subscribe('some-channel');
           <pre><code>
 var pusher = new Pusher('YOUR_APP_KEY');
 var channel = pusher.subscribe('some-channel');
-channel.bind('some-message', function (data) {
+channel.bind('some-event', function (data) {
   doSomething(data);
 });
           </pre></code>
