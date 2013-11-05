@@ -6,6 +6,11 @@
       </div>
     </div>
   </div>
+  <div class="chat-user-list">
+    <ul>
+      <li ng-repeat="user in users">{{ user.info.username }}</li>
+    </ul>
+  </div>
   <form ng-submit="sendMessage()">
     <input ng-model="currentMessage.body"
            class="chat-input"

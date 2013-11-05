@@ -41,7 +41,7 @@ app.post('/pusher/auth', function (req, res) {
   var channel = req.body.channel_name;
   var auth = pusher.auth(socketId, channel, {
     user_id: req.session.userid,
-    user_info: { name: req.session.username }
+    user_info: { username: req.session.username }
   });
   res.send(auth);
 });
