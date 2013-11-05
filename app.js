@@ -48,6 +48,11 @@ app.post('/pusher/auth', function (req, res) {
   res.send(auth);
 });
 
+app.post('/example', function (req, res) {
+  pusher.trigger('slides', 'example_event', { message: req.body.message });
+  res.send(200);
+});
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
