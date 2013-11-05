@@ -15,7 +15,9 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.cookieSession({ secret: config.COOKIE_SESSION_SECRET }));
+app.use(express.cookieSession({
+  secret: process.env['COOKIE_SESSION_SECRET'] || config.COOKIE_SESSION_SECRET
+}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.errorHandler());
