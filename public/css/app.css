@@ -1,0 +1,21 @@
+.login-form {
+  margin-top: 40px;
+}
+
+.chat-widget {
+  margin-top: 50px;
+}
+
+.chat-window {
+  height: 300px;
+}
+
+.chat-messages {
+  height: 300px;
+  overflow: auto;
+}
+
+.user-list {
+  height: 300px;
+  overflow: auto;
+}

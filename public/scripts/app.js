@@ -10,9 +10,22 @@ angular.module('pushRVA', ['ngRoute']).
       }).
       when('/chat', {
         controller: 'ChatCtrl',
-        templateUrl: 'views/chat.tpl.html'
+        templateUrl: 'views/chat.tpl.html',
+        resolve: {
+          username: ['$rootScope', '$q', function ($rootScope, $q) {
+            if (!$rootScope.username) {
+              return $q.reject('No username');
+            }
+            return $q.when($rootScope.username);
+          }]
+        }
       }).
       otherwise({ redirectTo: '/' });
+  }]).
+  run(['$rootScope', '$location', function ($rootScope, $location) {
+    $rootScope.$on('$routeChangeError', function () {
+      $location.path('/');
+    });
   }]);
 
 
@@ -33,10 +46,6 @@ angular.module('pushRVA').
   controller('ChatCtrl', ['$scope', '$rootScope', '$location',
                          function ($scope, $rootScope, $location) {
 
-    if (!$rootScope.username) {
-      $location.path('/');
-      return;
-    }
     Pusher.log = console.log.bind(console);
 
     var pusher = new Pusher('c58c0593d14c10c68435');
@@ -53,9 +62,10 @@ angular.module('pushRVA').
       body: ''
     };
 
-    privateChannel.bind('client-message', function (msg) {
+    privateChannel.bind('client-chat-message', function (msg) {
       $scope.$apply(function () {
         $scope.messages.push(msg);
+        $rootScope.$emit('new_message', msg);
       });
     });
 
@@ -63,9 +73,11 @@ angular.module('pushRVA').
       if (!$scope.currentMessage.body.trim()) {
         return;
       }
-      var success = privateChannel.trigger('client-message', $scope.currentMessage);
+      var success = privateChannel.trigger('client-chat-message', $scope.currentMessage);
       if (success) {
-        $scope.messages.push(angular.copy($scope.currentMessage));
+        var msg = angular.copy($scope.currentMessage);
+        $scope.messages.push(msg);
+        $rootScope.$emit('new_message', msg);
         $scope.currentMessage.body = '';
       }
     };
@@ -79,6 +91,7 @@ angular.module('pushRVA').
 
     presenceChannel.bind('pusher:subscription_succeeded', function (members) {
       $scope.$apply(function () {
+        $scope.users.splice(0, $scope.users.length);
         members.each(function (member) {
           $scope.users.push(member);
         });
@@ -98,5 +111,17 @@ angular.module('pushRVA').
       });
     });
   }]);
+
+
+  angular.module('pushRVA').
+    directive('rvaScrollDown', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+      return function (scope, elem, attr) {
+        $rootScope.$on('new_message', function () {
+          $timeout(function () {
+            elem[0].scrollTop = elem[0].scrollHeight + 10;
+          });
+        });
+      };
+    }]);
   
 })();
