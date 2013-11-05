@@ -17,5 +17,11 @@ Check it out: http://rvajs-pusher.herokuapp.com/
 }
 ```
 
+* Replace the app id in public/scripts/app.js with your app id.
+
+```javascript
+var pusher = new Pusher('YOUR APP ID');
+```
+
 * `npm install`
 * `node app`
